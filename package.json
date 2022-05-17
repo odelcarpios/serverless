@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "serverless-offline": "^8.7.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1135.0",
+    "axios": "^0.27.2",
+    "node-fetch": "^2.6.7",
+    "querystring": "^0.2.1",
+    "uuid": "^8.3.2"
+  }
+}

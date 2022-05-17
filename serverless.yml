@@ -1,0 +1,71 @@
+service: serverless-lambda-odcs
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-west-2
+  apiGateway:
+    shouldStartNameWithService: true
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - arn:aws:dynamodb:us-west-2:031392238163:table/usersTable
+     
+
+plugins:
+  - serverless-offline
+
+functions:
+  createUser:
+    handler: src/addUser.createUser
+    events:
+      - http:
+          method: POST
+          path: /user
+  listUser:
+    handler: src/addUser.listUser
+    events:
+      - http:
+          method: GET
+          path: /user
+  getFilms:
+    handler: src/swapi.getFilms
+    events:
+      - http:
+          method: GET
+          path: /films
+  getFilm:
+    handler: src/swapi.getFilm
+    events:
+      - http:
+          method: GET
+          path: /films/{id}
+  getPeopleAll:
+    handler: src/swapi.getPeopleAll
+    events:
+      - http:
+          method: GET
+          path: /people
+  getPeople:
+    handler: src/swapi.getPeople
+    events:
+      - http:
+          method: GET
+          path: /people/{id}
+
+resources:
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: usersTable
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
